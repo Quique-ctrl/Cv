@@ -10,7 +10,7 @@ export const profile = {
   email: "gomez.valdezde@gmail.com",
   phone: "+52 334 648 1055",
   linkedin: "https://www.linkedin.com/in/diego-enrique-g%C3%B3mez-valdez-282b45308/", // pon tu URL real
-  cvUrl: "/Diego Enrique CV.pdf",                     
+  cvUrl: "/Cv.pdf",                     
 };
 
 export const skills = [
