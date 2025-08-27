@@ -1,26 +1,212 @@
 @import "tailwindcss";
 
+/* Variables base mejoradas */
 :root {
-  --background: #ffffff;
+  --background: #f3f4f6;         /* gris claro */
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --card-bg: #fff;
+  --card-border: #e5e7ebcc;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --card-bg: #18181b;
+    --card-border: #23272fcc;
   }
+}
+
+/* Overrides manuales con data-theme (para el toggle) */
+:root, [data-theme="light"] {
+  --background: #f3f4f6;
+  --foreground: #171717;
+  --card-bg: #fff;
+  --card-border: #e5e7ebcc;
+}
+[data-theme="dark"] {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card-bg: #18181b;
+  --card-border: #23272fcc;
+}
+
+html, body {
+  height: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  transition: background 0.5s, color 0.5s;
+}
+
+/* utilidades opcionales */
+.container-page {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+/* Animación de entrada */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tarjetas visuales y modernas */
+.card {
+  border-radius: 1.5rem;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 24px 0 rgb(0 0 0 / 0.04);
+  animation: fadeInUp 1s cubic-bezier(.23,1.01,.32,1) both;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.025);
+  box-shadow: 0 8px 32px 0 rgb(31 38 135 / 0.18);
+  z-index: 2;
+}
+/* Colores de texto en modo claro */
+.text-neutral-700 { color: #23272f !important; }
+.text-neutral-600 { color: #475569 !important; }
+.text-neutral-500 { color: #64748b !important; }
+
+/* === FORZAR TEXTO BLANCO EN MODO OSCURO === */
+/* Texto base del body */
+[data-theme="dark"] body {
+  color: #ffffff; /* principal en blanco */
+}
+
+/* Neutrales típicos usados en párrafos/descripciones */
+[data-theme="dark"] .text-neutral-700,
+[data-theme="dark"] .text-neutral-600,
+[data-theme="dark"] .text-neutral-500 {
+  color: #f9fafb !important; /* blanco suave en dark */
+}
+
+/* Títulos aún más brillantes en dark para jerarquía */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4 {
+  color: #ffffff !important;
+}
+
+/* Botones principales animados */
+.button-cta {
+  transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+  box-shadow: 0 2px 8px 0 rgb(0 0 0 / 0.08);
+}
+.button-cta:hover {
+  transform: scale(1.06) translateY(-2px);
+  box-shadow: 0 6px 24px 0 rgb(0 0 0 / 0.12);
+  background: linear-gradient(90deg, #6366f1 0%, #0ea5e9 100%);
+  color: #fff !important;
+}
+
+/* Animación de halo en la foto de perfil */
+.profile-pic {
+  position: relative;
+  z-index: 1;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.profile-pic::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+}
+.profile-pic:hover {
+  box-shadow: 0 8px 32px 0 rgba(99,102,241,0.18);
+  transform: scale(1.04) rotate(-2deg);
+}
+.profile-pic:hover::after {
+  opacity: 0.5;
+}
+
+/* Subrayado animado en links */
+.link-underline {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #6366f1 0%, #0ea5e9 100%);
+  transform: scaleX(0);
+  transition: transform 0.25s;
+  transform-origin: left;
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* Animación de progreso en skills */
+.skills-graph {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+.skill-bar-compact-bg {
+  background: #e5e7eb;
+  border-radius: 9999px;
+  height: 0.5rem;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+[data-theme="dark"] .skill-bar-compact-bg {
+  background: #23272f;
+}
+.skill-bar-compact-fill {
+  background: linear-gradient(90deg, #6366f1 0%, #0ea5e9 100%);
+  height: 100%;
+  border-radius: 9999px;
+  width: 0;
+  transition: width 1.2s cubic-bezier(.23,1.01,.32,1);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.skill-bar-compact-fill.visible {
+}
+.skill-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  margin-bottom: 0.15rem;
+  color: #475569;
+}
+[data-theme="dark"] .skill-label-row {
+  color: #d1d5db;
+}
+
+/* Pulse animado para el botón de contacto */
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 #6366f155; }
+  50% { box-shadow: 0 0 0 8px #6366f133; }
+}
+.button-pulse {
+  animation: pulse 1.6s infinite;
 }
